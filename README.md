@@ -35,7 +35,7 @@ stretchFont()
 ```javascript
 import stretchFont from 'stretch-font'
 
-// init
+// Init
 const { rebuild } = stretchFont()
 
 // Custom call
@@ -49,16 +49,16 @@ self.addEventListener('click', rebuild) // Example
 </style>
 ```
 
-### data-font-stretch-min="n"
+### data-stretch-min="n"
 ```html
-<div class="stretch-font" data-font-stretch-min="10">
+<div class="stretch-font" data-stretch-min="10">
   Font cannot be less than 10px
 </div>
 ```
 
-### data-font-stretch-max="n"
+### data-stretch-max="n"
 ```html
-<div class="stretch-font" data-font-stretch-max="20">
+<div class="stretch-font" data-stretch-max="20">
   Font cannot be larger than 20px
 </div>
 ```

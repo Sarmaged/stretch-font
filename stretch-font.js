@@ -39,7 +39,7 @@ function useStretchFont(className = "stretch-font") {
     const fz = getFontSize(el.firstChild).slice(0, -2);
 
     const calc = (el.offsetWidth / el.firstChild.offsetWidth) * +fz * 0.97;
-    let { fontStretchMin: min, fontStretchMax: max } = el.dataset;
+    let { stretchMin: min, stretchMax: max } = el.dataset;
     min !== undefined && (min = +(min || fz));
     max !== undefined && (max = +(max || fz));
 
