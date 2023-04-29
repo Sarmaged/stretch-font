@@ -6,9 +6,8 @@ The utility dynamically adjusts the font size depending on the width of the pare
 ## Installation
 ```bash
 npm install stretch-font
-
-or
-
+```
+```bash
 yarn add stretch-font
 ```
 
@@ -25,10 +24,43 @@ stretchFont()
 #### For HTML
 ```html
 ...
-<link rel="stylesheet" href="style.css">
-<script src="stretch-font.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/stretch-font/style.css">
+<script src="https://unpkg.com/stretch-font/stretch-font.min.js"></script>
 <script>stretchFont()</script>
 ...
+```
+
+## Options
+### Call the rebuild in ES
+```javascript
+import stretchFont from 'stretch-font'
+
+// init
+const { rebuild } = stretchFont()
+
+// Custom call
+self.addEventListener('click', rebuild) // Example
+```
+
+### You can import style in tag `<style>`
+```html
+<style scoped>
+@import "stretch-font/style.css";
+</style>
+```
+
+### data-font-stretch-min="n"
+```html
+<div class="stretch-font" data-font-stretch-min="10">
+  Font cannot be less than 10px
+</div>
+```
+
+### data-font-stretch-max="n"
+```html
+<div class="stretch-font" data-font-stretch-max="20">
+  Font cannot be larger than 20px
+</div>
 ```
 
 ## License
