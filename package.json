@@ -1,0 +1,30 @@
+{
+  "name": "stretch-font",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sarmaged/stretch-font.git"
+  },
+  "license": "MIT",
+  "author": "Sarmaged <sarmaged@gmail.com>",
+  "type": "module",
+  "main": "stretch-font.js",
+  "description": "The utility dynamically adjusts the font size depending on the width of the parent element.",
+  "keywords": [
+    "stretch",
+    "font",
+    "font-size",
+    "js"
+  ],
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.5",
+    "@babel/preset-env": "^7.21.5",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-terser": "^0.4.1",
+    "rollup": "^3.21.0"
+  }
+}
