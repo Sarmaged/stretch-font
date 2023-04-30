@@ -1,5 +1,17 @@
 # stretch-font
-The utility dynamically adjusts the font size depending on the width of the parent element.
+The **Utility Dynamically** 🤩 adjusts the **font size** depending on the width of the parent element.
+
+<hr>
+
+This plugin was created in order not to write CSS [Media query] rules for each screen when you have many languages and you can switch them dynamically.
+
+The sentence itself looks like a **"title"**. Text size conversions to only one line ☝🏻
+
+### Support
+- ✅Any change in the width of the parent element
+- ✅Rotate
+- ✅CSS Animation
+- ✅CSS Transition
 
 <hr>
 
@@ -30,16 +42,16 @@ stretchFont()
 ...
 ```
 
-## Options
+## Other usage
 ### Call the rebuild in ES
 ```javascript
 import stretchFont from 'stretch-font'
 
-// Init
+// [Init] stretchFont - First call
 const { rebuild } = stretchFont()
 
-// Custom call
-self.addEventListener('click', rebuild) // Example
+// [Custom call] How like search Node elements in page
+self.addEventListener('click', rebuild) // Just example
 ```
 
 ### You can import style in tag `<style>`
@@ -49,6 +61,7 @@ self.addEventListener('click', rebuild) // Example
 </style>
 ```
 
+## Options
 ### data-stretch-min="n"
 ```html
 <div class="stretch-font" data-stretch-min="10">
