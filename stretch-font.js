@@ -1,74 +1,58 @@
 /**
- * The function `useStretchFont` dynamically adjusts font size based on the width of the parent element.
- * @param [className=stretch-font] - The name of the class that will be used to identify the elements that will have their
- * font size stretched. By default, it is set to "stretch-font".
- * @returns An object with a single method `rebuild`.
+ * The `useStretchFont` function adjusts the font size of HTML elements based on their width and specified minimum and
+ * maximum font size values.
+ * @param [className=stretch-font] - The class name that identifies the elements that should have their font size
+ * stretched. The default value is "stretch-font".
+ * @param [root] - The `root` parameter is an optional argument that specifies the root element to search for nodes with
+ * the class name `className`. If no `root` element is specified, the function will search the entire document for nodes
+ * with the class name `className`.
  */
-function useStretchFont(className = "stretch-font") {
+function useStretchFont(root = document, className = "stretch-font") {
   let Nodes = [];
   let resizeObserver = null;
-  let mutationObserver = null;
 
   /**
-   * The function saves the font size of an element in its dataset if it is not already saved.
-   * @param el - The "el" parameter is a reference to an HTML element. It is used in the function to get and set the font
-   * size of the element.
+   * The function saves the font size of a node and adds a child element with the same text and font size.
+   * @param node - The HTML element node that we want to save the font size for and add a new element to.
+   * @returns There is no return statement in this code snippet, so nothing is being returned.
    */
-  function saveFontSize(el) {
-    if (!el.dataset.fz) {
-      el.dataset.fz = getFontSize(el).slice(0, -2);
+  function saveFontSize(node) {
+    if (!node.dataset.fz) {
+      node.dataset.fz = getFontSize(node).slice(0, -2);
     }
-  }
 
-  /**
-   * The function creates a shadow element for a given HTML element.
-   * @param el - The `el` parameter is a reference to a DOM element that the `createShadow` function will create a shadow
-   * for.
-   * @returns There is no return statement in this code snippet, so nothing is being returned explicitly.
-   */
-  function createShadow(el) {
-    if (el.firstChild.classList?.contains(className + "__save")) return;
+    if (node.firstChild.classList?.contains(className + "__save")) return false;
     const n = document.createElement("i");
     n.classList.add(className + "__save");
-    n.innerHTML = el.innerText;
-    n.style.fontSize = el.dataset.fz + "px";
-    el.insertBefore(n, el.firstChild);
+    n.innerHTML = node.innerText;
+    n.style.fontSize = node.dataset.fz + "px";
+    node.insertBefore(n, node.firstChild);
+
+    return true;
   }
 
   /**
-   * The function returns the font size of an element.
-   * @param el - The parameter "el" is a reference to a DOM element whose font size we want to retrieve.
-   * @returns The function `getFontSize` is returning the computed font size of the element passed as an argument.
+   * The function returns the font size of a given node element.
+   * @param node - The node parameter is a reference to a DOM element whose font size is to be retrieved.
+   * @returns The function `getFontSize` returns the computed font size of the specified `node` element.
    */
-  function getFontSize(el) {
-    return self.getComputedStyle(el, null).getPropertyValue("font-size");
+  function getFontSize(node) {
+    return self.getComputedStyle(node, null).getPropertyValue("font-size");
   }
 
   /**
-   * The function sets the font size of an element based on its width and optional minimum and maximum font sizes.
-   * @param el - The parameter `el` is a reference to an HTML element.
+   * The function adjusts the font size of a given node based on its width and specified minimum and maximum sizes.
+   * @param node - The HTML element node that needs to have its font size adjusted based on its width and the provided data
+   * attributes.
    */
-  function setFontSize(el) {
-    let { fz, stretchMin: min, stretchMax: max } = el.dataset;
+  function formula(node) {
+    let { fz, stretchMin: min, stretchMax: max } = node.dataset;
     min !== undefined && (min = +(min || fz));
     max !== undefined && (max = +(max || fz));
 
-    const calc = (el.offsetWidth / el.firstChild.offsetWidth) * +fz * 0.97;
-    const width = calc > max ? max : calc < min ? min : calc;
-    el.style.fontSize = width + "px";
-  }
-
-  /**
-   * The function rebuild() iterates through Nodes, saves the font size of each element, and observes them using an
-   * observer if available.
-   */
-  function rebuild() {
-    Nodes.forEach((el) => {
-      saveFontSize(el);
-      createShadow(el);
-      resizeObserver && resizeObserver.observe(el);
-      mutationObserver && mutationObserver.observe(el, { childList: true });
-    });
+    const calc = (node.offsetWidth / node.firstChild.offsetWidth) * +fz * 0.97;
+    const size = calc > max ? max : calc < min ? min : calc;
+    node.style.fontSize = size + "px";
   }
 
   /**
@@ -78,32 +62,40 @@ function useStretchFont(className = "stretch-font") {
    * intersection with the viewport. In this case, the `entries` array is being passed to a function called `entries
    */
   function entriesResize(entries) {
-    self.requestAnimationFrame(() => entries.forEach(({ target }) => setFontSize(target)));
+    self.requestAnimationFrame(() => entries.forEach(({ target }) => formula(target)));
   }
 
   /**
-   * The function applies the createShadow and setFontSize functions to each target element in an array of entries.
-   * @param entries - The `entries` parameter is an array of `MutationRecord` objects. Each `MutationRecord` object
-   * represents a single change that occurred in the observed DOM. The `entriesMutation` function iterates over this array
-   * and performs some actions on each `target` element of the mutation.
+   * The function finds all nodes with a specific class name within a given target element.
+   * @param target - The target parameter is a DOM element that is being searched for nodes with a specific class name.
+   * @returns The function `findNodes` returns an array of DOM elements that have a class name matching the `className`
+   * parameter. If the `target` parameter itself has the matching class name, it will be the only element in the returned
+   * array. If there are no matching elements, an empty array will be returned.
    */
-  function entriesMutation(entries) {
-    entries.forEach(({ target }) => {
-      createShadow(target);
-      setFontSize(target);
-    });
+  function findNodes(target) {
+    if (target.classList?.contains(className)) return [target];
+    return target.querySelectorAll("." + className) || [];
   }
 
   self.addEventListener("DOMContentLoaded", () => {
-    Nodes = document.querySelectorAll("." + className) || [];
+    Nodes = findNodes(root);
     resizeObserver = new ResizeObserver(entriesResize);
-    mutationObserver = new MutationObserver(entriesMutation);
-    rebuild();
-  });
 
-  return {
-    rebuild,
-  };
+    new MutationObserver((entries) => {
+      entries.forEach(({ target }) => {
+        findNodes(target).forEach(node => {
+          if (!saveFontSize(node)) return;
+          formula(node);
+          resizeObserver.observe(node);
+        })
+      })
+    }).observe(root, { childList: true, subtree: true });
+
+    Nodes.forEach((node) => {
+      if (!saveFontSize(node)) return;
+      resizeObserver.observe(node);
+    });
+  });
 }
 
 export default useStretchFont;

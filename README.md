@@ -30,39 +30,27 @@ yarn add stretch-font
 ```javascript
 import 'stretch-font/style.css'
 import stretchFont from 'stretch-font'
-
 stretchFont()
 ```
 
-#### For HTML
+#### OR for HTML
 ```html
-...
 <link rel="stylesheet" href="https://unpkg.com/stretch-font/style.css">
 <script src="https://unpkg.com/stretch-font/stretch-font.min.js"></script>
 <script>stretchFont()</script>
-...
 ```
 
-## Other usage
-### Call the rebuild in ES
-```javascript
-import stretchFont from 'stretch-font'
-
-// [Init] stretchFont - First call
-const { rebuild } = stretchFont()
-
-// [Custom call] How like search Node elements in page
-self.addEventListener('click', rebuild) // Just example
-```
-
-### You can import style in tag `<style>`
+### Next you just need to add a class to any element
 ```html
-<style scoped>
-@import "stretch-font/style.css";
-</style>
+<div class="stretch-font">Hello world</div>
 ```
 
 ## Options
+
+### useStretchFont(className, root)
+- className = "stretch-font"
+- root = document
+
 ### data-stretch-min="n"
 ```html
 <div class="stretch-font" data-stretch-min="10">
