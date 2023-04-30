@@ -8,10 +8,11 @@ This plugin was created in order not to write CSS [Media query] rules for each s
 The sentence itself looks like a **"title"**. Text size conversions to only one line ☝🏻
 
 ### Support
-- ✅Any change in the width of the parent element
-- ✅Rotate
-- ✅CSS Animation
-- ✅CSS Transition
+- 🔥 Hot text replacement (i18n)
+- 🖥 Any change in the width of the parent element
+- 🔄 Rotate
+- ✅ CSS Animation
+- ✅ CSS Transition
 
 <hr>
 
