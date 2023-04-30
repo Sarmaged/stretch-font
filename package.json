@@ -11,6 +11,7 @@
   "main": "stretch-font.js",
   "description": "The utility dynamically adjusts the font size depending on the width of the parent element.",
   "keywords": [
+    "stretch-font",
     "stretch",
     "font",
     "font-size",
