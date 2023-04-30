@@ -14,7 +14,18 @@
     "stretch",
     "font",
     "font-size",
-    "js"
+    "i18n",
+    "js",
+    "javascript",
+    "css",
+    "front-end",
+    "mobile",
+    "rotate",
+    "responsive",
+    "typography",
+    "fluid",
+    "screens",
+    "screen-size"
   ],
   "scripts": {
     "build": "rollup -c"
