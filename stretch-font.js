@@ -6,7 +6,7 @@
  */
 function useStretchFont(className = "stretch-font") {
   let Nodes = [];
-  let observer = null
+  let observer = null;
 
   /**
    * This function saves the font size of an element and sets it as the font size of its child element.
@@ -14,9 +14,9 @@ function useStretchFont(className = "stretch-font") {
    * @returns The function does not have a return statement, so it does not return anything.
    */
   function saveFontSize(el) {
-    if (el.firstChild.classList?.contains(className + '__save')) return
+    if (el.firstChild.classList?.contains(className + "__save")) return;
     const n = document.createElement("div");
-    n.classList.add(className + '__save');
+    n.classList.add(className + "__save");
     n.innerHTML = el.innerText;
     n.style.fontSize = getFontSize(el);
     el.insertBefore(n, el.firstChild);
@@ -28,7 +28,7 @@ function useStretchFont(className = "stretch-font") {
    * @returns The function `getFontSize` is returning the computed font size of the element passed as an argument.
    */
   function getFontSize(el) {
-    return window.getComputedStyle(el, null).getPropertyValue("font-size");
+    return self.getComputedStyle(el, null).getPropertyValue("font-size");
   }
 
   /**
@@ -52,21 +52,25 @@ function useStretchFont(className = "stretch-font") {
    * observer if available.
    */
   function rebuild() {
-    Nodes.forEach(el => {
-      saveFontSize(el)
-      observer && observer.observe(el)
+    Nodes.forEach((el) => {
+      saveFontSize(el);
+      observer && observer.observe(el);
     });
   }
 
-  window.addEventListener("DOMContentLoaded", () => {
-    Nodes = document.querySelectorAll('.' + className) || [];
-    observer = new ResizeObserver(entries => entries.forEach(x => setFontSize(x.target)))
-    rebuild()
+  function entries(entries) {
+    self.requestAnimationFrame(() => entries.forEach((x) => setFontSize(x.target)));
+  }
+
+  self.addEventListener("DOMContentLoaded", () => {
+    Nodes = document.querySelectorAll("." + className) || [];
+    observer = new ResizeObserver(entries);
+    rebuild();
   });
 
   return {
-    rebuild
-  }
+    rebuild,
+  };
 }
 
 export default useStretchFont;
