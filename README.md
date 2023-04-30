@@ -8,6 +8,7 @@ This plugin was created in order not to write CSS [Media query] rules for each s
 The sentence itself looks like a **"title"**. Text size conversions to only one line ☝🏻
 
 ### Support
+- 🤩 Watches when elements are added / removed
 - 🔥 Hot text replacement (i18n)
 - 🖥 Any change in the width of the parent element
 - 🔄 Rotate
@@ -30,6 +31,9 @@ yarn add stretch-font
 ```javascript
 import 'stretch-font/style.css'
 import stretchFont from 'stretch-font'
+
+// Run only once if you didn't use "root"
+// If you've used root many times, it should be different
 stretchFont()
 ```
 
