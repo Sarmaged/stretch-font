@@ -48,8 +48,8 @@ stretchFont()
 ## Options
 
 ### useStretchFont(root, className)
-- className = "stretch-font"
 - root = document
+- className = "stretch-font"
 
 ### data-stretch-min="n"
 ```html
