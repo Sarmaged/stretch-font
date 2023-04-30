@@ -6,6 +6,7 @@
  */
 function useStretchFont(className = "stretch-font") {
   let Nodes = [];
+  let observer = null
 
   /**
    * This function saves the font size of an element and sets it as the font size of its child element.
@@ -19,7 +20,6 @@ function useStretchFont(className = "stretch-font") {
     n.innerHTML = el.innerText;
     n.style.fontSize = getFontSize(el);
     el.insertBefore(n, el.firstChild);
-    setFontSize(el);
   }
 
   /**
@@ -48,15 +48,21 @@ function useStretchFont(className = "stretch-font") {
   }
 
   /**
-   * The function rebuild selects all nodes with a specific class name and saves their font size.
+   * The function rebuild() iterates through Nodes, saves the font size of each element, and observes them using an
+   * observer if available.
    */
   function rebuild() {
-    Nodes = document.querySelectorAll('.' + className) || [];
-    Nodes.forEach(saveFontSize);
+    Nodes.forEach(el => {
+      saveFontSize(el)
+      observer && observer.observe(el)
+    });
   }
 
-  window.addEventListener("DOMContentLoaded", rebuild);
-  window.onresize = () => Nodes.forEach(setFontSize);
+  window.addEventListener("DOMContentLoaded", () => {
+    Nodes = document.querySelectorAll('.' + className) || [];
+    observer = new ResizeObserver(entries => entries.forEach(x => setFontSize(x.target)))
+    rebuild()
+  });
 
   return {
     rebuild
