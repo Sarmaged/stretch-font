@@ -47,7 +47,7 @@ stretchFont()
 
 ## Options
 
-### useStretchFont(className, root)
+### useStretchFont(root, className)
 - className = "stretch-font"
 - root = document
 
