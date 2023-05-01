@@ -1,3 +1,7 @@
+<h3 align="center">
+  <img width="300" alt="stretch-font logo" src="https://raw.githubusercontent.com/Sarmaged/stretch-font/main/logo.png" />
+</h3>
+
 # stretch-font
 The **Utility Dynamically** 🤩 adjusts the **font size** depending on the width of the parent element.
 
