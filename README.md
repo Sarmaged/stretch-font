@@ -1,5 +1,5 @@
 <h3 align="center">
-  <img width="300" alt="stretch-font logo" src="https://raw.githubusercontent.com/Sarmaged/stretch-font/main/logo.png" />
+  <img width="300" alt="stretch-font logo" src="https://raw.githubusercontent.com/Sarmaged/stretch-font/main/logo.jpg" />
 </h3>
 
 # stretch-font
