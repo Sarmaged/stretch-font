@@ -1,4 +1,6 @@
 .stretch-font {
+  font-size: initial;
+
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -19,4 +21,6 @@
   position: absolute;
 
   white-space: pre-line;
+
+  box-sizing: inherit;
 }
