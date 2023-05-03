@@ -1,27 +1,22 @@
 .stretch-font {
-  position: relative;
-
-  display: grid;
-  gap: 0.5ex;
-  grid-auto-flow: column;
-  justify-content: center;
-
-  width: 100%;
-
-  white-space: nowrap;
   overflow: hidden;
-
-  box-sizing: border-box;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
-.stretch-font__save {
-  top: 0;
+
+.stretch-font__tmpl {
+  top: 100%;
   left: 0;
+  right: 0;
   position: absolute;
   z-index: -1;
 
-  font-size: inherit;
-
   box-sizing: inherit;
+}
+.stretch-font__tmpl >span {
+  top: 0;
+  left: 0;
+  position: absolute;
 
-  opacity: 0;
+  white-space: pre-line;
 }

@@ -7,28 +7,66 @@
  * the class name `className`. If no `root` element is specified, the function will search the entire document for nodes
  * with the class name `className`.
  */
-function useStretchFont(root = document, className = "stretch-font") {
-  let Nodes = [];
-  let resizeObserver = null;
+function useStretchFont(root = document, className = 'stretch-font') {
+  const tmplClass = 'stretch-font__tmpl'
+  const store = new Map()
+  let resizeObserver = null
 
-  /**
-   * The function saves the font size of a node and adds a child element with the same text and font size.
-   * @param node - The HTML element node that we want to save the font size for and add a new element to.
-   * @returns There is no return statement in this code snippet, so nothing is being returned.
-   */
-  function saveFontSize(node) {
-    if (!node.dataset.fz) {
-      node.dataset.fz = getFontSize(node).slice(0, -2);
-    }
+  // Create template for width container
+  const body = document.getElementsByTagName('body')[0]
+  const tmpl = document.createElement('div')
+  tmpl.classList.add(tmplClass)
+  body.appendChild(tmpl)
 
-    if (node.firstChild.classList?.contains(className + "__save")) return false;
-    const n = document.createElement("i");
-    n.classList.add(className + "__save");
-    n.innerHTML = node.innerText;
-    n.style.fontSize = node.dataset.fz + "px";
-    node.insertBefore(n, node.firstChild);
+  // Helpers
+  function uniqArrayKeys(array) {
+    return [...new Set(array)]
+  }
+  function getWidth(node) {
+    return node.getBoundingClientRect().width
+  }
+  function storeSave(node, payload = {}) {
+    if (!payload && !Object.keys(payload).length) return
+    const o = store.get(node)
+    store.set(node, { ...o, ...payload })
+  }
 
-    return true;
+  // Get and save to store
+  function setSize(node) {
+    if (store.get(node)?.size) return
+    const size = getFontSize(node)
+
+    storeSave(node, { size })
+  }
+  function setMin(node) {
+    if (store.get(node)?.min) return
+    let { stretchMin: min } = node.dataset
+
+    storeSave(node, { min: +min })
+  }
+  function setMax(node) {
+    if (!('stretchMax' in node.dataset)) return
+    if (!node.dataset.stretchMax) return
+
+    if (store.get(node)?.max) return
+    let { stretchMax: max } = node.dataset
+
+    storeSave(node, { max: +max })
+  }
+  function setWidth(node) {
+    const o = store.get(node)
+
+    const n = document.createElement('span')
+    n.innerHTML = node.innerHTML
+    n.style.fontSize = o.size + 'px'
+    tmpl.appendChild(n)
+
+    const { width } = n.getBoundingClientRect()
+    const freeze = ('stretchFreeze' in node.dataset && !o.freeze ? width : o.freeze) || 0
+
+    storeSave(node, { width, freeze })
+
+    n.remove()
   }
 
   /**
@@ -37,7 +75,7 @@ function useStretchFont(root = document, className = "stretch-font") {
    * @returns The function `getFontSize` returns the computed font size of the specified `node` element.
    */
   function getFontSize(node) {
-    return self.getComputedStyle(node, null).getPropertyValue("font-size");
+    return +self.getComputedStyle(node, null).getPropertyValue('font-size').slice(0, -2)
   }
 
   /**
@@ -46,13 +84,12 @@ function useStretchFont(root = document, className = "stretch-font") {
    * attributes.
    */
   function formula(node) {
-    let { fz, stretchMin: min, stretchMax: max } = node.dataset;
-    min !== undefined && (min = +(min || fz));
-    max !== undefined && (max = +(max || fz));
+    let { size, min, max, width, freeze } = store.get(node)
 
-    const calc = (node.offsetWidth / node.firstChild.offsetWidth) * +fz * 0.97;
-    const size = calc > max ? max : calc < min ? min : calc;
-    node.style.fontSize = size + "px";
+    const calc = ((freeze || node.getBoundingClientRect().width) / width) * size * 0.985
+    const x = calc > max ? max : calc < min ? min : calc
+
+    node.style.fontSize = x + 'px'
   }
 
   /**
@@ -62,7 +99,7 @@ function useStretchFont(root = document, className = "stretch-font") {
    * intersection with the viewport. In this case, the `entries` array is being passed to a function called `entries
    */
   function entriesResize(entries) {
-    self.requestAnimationFrame(() => entries.forEach(({ target }) => formula(target)));
+    self.requestAnimationFrame(() => entries.forEach(({ target }) => formula(target)))
   }
 
   /**
@@ -72,30 +109,55 @@ function useStretchFont(root = document, className = "stretch-font") {
    * parameter. If the `target` parameter itself has the matching class name, it will be the only element in the returned
    * array. If there are no matching elements, an empty array will be returned.
    */
-  function findNodes(target) {
-    if (target.classList?.contains(className)) return [target];
-    return target.querySelectorAll("." + className) || [];
+  function getNodes(target) {
+    return target.querySelectorAll('.' + className) || []
   }
 
-  self.addEventListener("DOMContentLoaded", () => {
-    Nodes = findNodes(root);
-    resizeObserver = new ResizeObserver(entriesResize);
+  function rebuild(node) {
+    if ('stretchMin' in node.dataset) setMin(node)
+    if ('stretchMax' in node.dataset) setMax(node)
+    setSize(node)
+    setWidth(node)
 
-    new MutationObserver((entries) => {
-      entries.forEach(({ target }) => {
-        findNodes(target).forEach(node => {
-          if (!saveFontSize(node)) return;
-          formula(node);
-          resizeObserver.observe(node);
+    formula(node)
+    resizeObserver.observe(node)
+  }
+
+  self.addEventListener('DOMContentLoaded', () => {
+    // Watch resize
+    resizeObserver = new ResizeObserver(entriesResize)
+
+    // init
+    getNodes(root).forEach(rebuild)
+
+    // Watch mutation
+    new MutationObserver(entries => {
+      const manipulate = entries
+        .filter(({ type, target }) => type === 'childList' && !target.classList?.contains(tmplClass))
+        .map(({ target }) => {
+          if (target.classList?.contains(className)) return target
+          return [...Array.from(getNodes(target)).filter(node => !store.has(node))]
         })
-      })
-    }).observe(root, { childList: true, subtree: true });
+        .flat()
 
-    Nodes.forEach((node) => {
-      if (!saveFontSize(node)) return;
-      resizeObserver.observe(node);
-    });
-  });
+      const mutation = entries
+        .filter(({ type, target: { parentNode } }) => {
+          if (type !== 'characterData') return
+          if (!parentNode.classList?.contains(className)) return
+          if (!store.has(parentNode)) return
+          return store.get(parentNode).width !== getWidth(parentNode)
+        })
+        .map(({ target }) => target.parentNode)
+
+      uniqArrayKeys([...mutation, ...manipulate]).forEach(rebuild)
+
+      console.log('==============================================')
+      // console.log('entries', entries);
+      console.log('uniqArrayKeys', uniqArrayKeys([...mutation, ...manipulate]))
+      // console.log('toggleMutation', toggleMutation)
+      // console.log('filterManipulate', filterManipulate)
+    }).observe(root, { characterData: true, childList: true, subtree: true })
+  })
 }
 
-export default useStretchFont;
+export default useStretchFont
