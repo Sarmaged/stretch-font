@@ -1,6 +1,6 @@
-import babel from '@rollup/plugin-babel';
-import resolve from '@rollup/plugin-node-resolve';
-import terser from '@rollup/plugin-terser';
+import babel from '@rollup/plugin-babel'
+import resolve from '@rollup/plugin-node-resolve'
+import terser from '@rollup/plugin-terser'
 
 export default [
   {
@@ -10,8 +10,8 @@ export default [
         browser: true,
       }),
       babel({
-        exclude: "node_modules/**",
-        babelHelpers: 'bundled'
+        exclude: 'node_modules/**',
+        babelHelpers: 'bundled',
       }),
     ],
 
@@ -23,6 +23,6 @@ export default [
         plugins: [terser()],
         sourcemap: true,
       },
-    ]
-  }
-];
+    ],
+  },
+]

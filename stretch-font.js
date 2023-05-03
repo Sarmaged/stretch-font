@@ -62,7 +62,7 @@ function useStretchFont(root = document, className = 'stretch-font') {
     tmpl.appendChild(n)
 
     const { width } = n.getBoundingClientRect()
-    const freeze = ('stretchFreeze' in node.dataset && !o.freeze ? width : o.freeze) || 0
+    const freeze = 'stretch' in node.dataset ? 0 : !o.freeze ? width : o.freeze
 
     storeSave(node, { width, freeze })
 
@@ -79,9 +79,8 @@ function useStretchFont(root = document, className = 'stretch-font') {
   }
 
   /**
-   * The function adjusts the font size of a given node based on its width and specified minimum and maximum sizes.
-   * @param node - The HTML element node that needs to have its font size adjusted based on its width and the provided data
-   * attributes.
+   * The function adjusts the font size of a given node based on its width and predefined size, minimum and maximum values.
+   * @param node - The HTML element node that we want to apply the font size formula to.
    */
   function formula(node) {
     let { size, min, max, width, freeze } = store.get(node)
@@ -113,6 +112,13 @@ function useStretchFont(root = document, className = 'stretch-font') {
     return target.querySelectorAll('.' + className) || []
   }
 
+  /**
+   * The function "rebuild" performs various operations on a given node element, including setting its minimum and maximum
+   * size, calculating its size and width, applying a formula, and observing its resizing.
+   * @param node - The node parameter is a reference to a DOM element that needs to be rebuilt. The function rebuild() is
+   * responsible for setting various properties and attributes of the node, such as its minimum and maximum size, its size,
+   * and its width. It also calls a formula() function and sets up a resizeObserver
+   */
   function rebuild(node) {
     if ('stretchMin' in node.dataset) setMin(node)
     if ('stretchMax' in node.dataset) setMax(node)
@@ -150,12 +156,6 @@ function useStretchFont(root = document, className = 'stretch-font') {
         .map(({ target }) => target.parentNode)
 
       uniqArrayKeys([...mutation, ...manipulate]).forEach(rebuild)
-
-      console.log('==============================================')
-      // console.log('entries', entries);
-      console.log('uniqArrayKeys', uniqArrayKeys([...mutation, ...manipulate]))
-      // console.log('toggleMutation', toggleMutation)
-      // console.log('filterManipulate', filterManipulate)
     }).observe(root, { characterData: true, childList: true, subtree: true })
   })
 }
