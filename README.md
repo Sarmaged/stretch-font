@@ -9,13 +9,12 @@ The **Utility Dynamically** 🤩 adjusts the **font size** depending on the widt
 
 This plugin was created in order not to write CSS [Media query] rules for each screen when you have many languages and you can switch them dynamically.
 
-The sentence itself looks like a **"title"**. Text size conversions to only one line ☝🏻
-
 ### Support
-- 🤩 Watches when elements are added / removed
+- 🤩 Watches when elements are added
 - 🔥 Hot text replacement (i18n)
 - 🖥 Any change in the width of the parent element
 - 🔄 Rotate
+- 📝 Multiline
 - ✅ CSS Animation
 - ✅ CSS Transition
 
@@ -48,16 +47,56 @@ stretchFont()
 <script>stretchFont()</script>
 ```
 
-### Next you just need to add a class to any element
+## Options
+### Simple usage
 ```html
 <div class="stretch-font">Hello world</div>
 ```
 
-## Options
 
 ### useStretchFont(root, className)
-- root = document
-- className = "stretch-font"
+```
+// defaults
+
+root = document
+className = "stretch-font"
+```
+
+### data-stretch
+```html
+<div class="stretch-font" data-stretch>
+  The font is stretched to the width of the block
+</div>
+```
+This is visible when you work with (i18n).
+When you change the language, the text takes on the original block width and is not stretched. In this case, the font may increase or decrease depending on how long the text will be.
+
+<p style="color: #FF7B42">⚠️ Do not apply styles and classes to the "stretch-font" block</p>
+
+```html
+🚫 Incorrect
+<div class="stretch-font" style="font-size: 100px"> ... </div>
+
+✅ Correct
+<div style="font-size: 60px;">
+  <div class="stretch-font">
+    ...
+  </div>
+</div>
+```
+```html
+🚫 Incorrect
+<div class="stretch-font fz100">
+  ... class fz100 - it's font-size: 100px ...
+</div>
+
+✅ Correct
+<div class="fz100">
+  <div class="stretch-font">
+    ...
+  </div>
+</div>
+```
 
 ### data-stretch-min="n"
 ```html
