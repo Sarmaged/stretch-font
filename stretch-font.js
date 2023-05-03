@@ -10,13 +10,18 @@
 function useStretchFont(root = document, className = 'stretch-font') {
   const tmplClass = 'stretch-font__tmpl'
   const store = new Map()
+
   let resizeObserver = null
+  let tmpl = null
+
+  const body = document.getElementsByTagName('body')[0]
 
   // Create template for width container
-  const body = document.getElementsByTagName('body')[0]
-  const tmpl = document.createElement('div')
-  tmpl.classList.add(tmplClass)
-  body.appendChild(tmpl)
+  if (!body.querySelector('.' + tmplClass)) {
+    tmpl = document.createElement('div')
+    tmpl.classList.add(tmplClass)
+    body.appendChild(tmpl)
+  }
 
   // Helpers
   function uniqArrayKeys(array) {
