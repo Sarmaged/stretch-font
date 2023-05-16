@@ -4,7 +4,7 @@
 
 <h1 align="center" style="text-align: center">Stretch Font</h1>
 
-<div style="text-align: center">
+<div align="center" style="text-align: center">
 
 [![npm](https://img.shields.io/npm/v/stretch-font)][npm-link]
 [![npm](https://img.shields.io/npm/dt/stretch-font)][npm-link]
