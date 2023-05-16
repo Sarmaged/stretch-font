@@ -1,16 +1,16 @@
-<center>
+<p align="center" style="text-align: center">
   <img width="300" style="max-width:100%;" alt="Stretch Font: The utility dynamically adjusts the font size based on the width and height of the container" src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81r-pDRRmxLwqLVLWFXtdhL9B0bgj1YHe6otqqMJhc3gwexSm9TfPz8owrTSzPlkMFmW_zZewHzDJYp43QBhHtsYa1X6iA=s2560" />
-</center>
+</p>
 
 <h1 align="center" style="text-align: center">Stretch Font</h1>
 
-<center>
+<p align="center" style="text-align: center">
 
 [![npm](https://img.shields.io/npm/v/stretch-font)][npm-link]
 [![npm](https://img.shields.io/npm/dt/stretch-font)][npm-link]
 [![GitHub](https://img.shields.io/github/license/sarmaged/stretch-font)][github-link]
 
-</center>
+</p>
 
 <p align="center" style="text-align: center">
 <strong>The Utility Dynamically</strong><br />
