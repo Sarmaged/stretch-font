@@ -9,7 +9,7 @@
   "author": "Sarmaged <sarmaged@gmail.com>",
   "type": "module",
   "main": "stretch-font.js",
-  "description": "The utility dynamically adjusts the font size depending on the width of the parent element.",
+  "description": "Stretch Font: The utility dynamically adjusts the font size based on the width and height of the container",
   "keywords": [
     "stretch-font",
     "stretch",

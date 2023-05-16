@@ -1,13 +1,24 @@
-<h3 style="text-align: center">
-  <img width="300" alt="stretch-font logo" src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81r-pDRRmxLwqLVLWFXtdhL9B0bgj1YHe6otqqMJhc3gwexSm9TfPz8owrTSzPlkMFmW_zZewHzDJYp43QBhHtsYa1X6iA=s2560" />
-</h3>
+<center>
+  <img width="300" style="max-width:100%;" alt="Stretch Font: The utility dynamically adjusts the font size based on the width and height of the container" src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81r-pDRRmxLwqLVLWFXtdhL9B0bgj1YHe6otqqMJhc3gwexSm9TfPz8owrTSzPlkMFmW_zZewHzDJYp43QBhHtsYa1X6iA=s2560" />
+</center>
 
-<h1 style="text-align: center">Stretch Font</h1>
-<strong>The Utility Dynamically</strong> 🤩 adjusts the <u>font size</u> depending on the <u>width</u> and <u>height</u> of the container.
+<h1 align="center" style="text-align: center">Stretch Font</h1>
+
+<center>
+
+[![npm](https://img.shields.io/npm/v/stretch-font)][npm-link]
+[![npm](https://img.shields.io/npm/dt/stretch-font)][npm-link]
+[![GitHub](https://img.shields.io/github/license/sarmaged/stretch-font)][github-link]
+
+</center>
+
+<p align="center" style="text-align: center">
+<strong>The Utility Dynamically</strong><br />
+Adjusts the <u>font size</u> depending on the <u>width</u> and <u>height</u> of the container.</p>
 
 <hr>
 
-This plugin was created in order not to write CSS [Media query] rules for each screen when you have many languages and you can switch them dynamically.
+<p>This plugin was created in order not to write CSS [Media query] rules for each screen when you have many languages and you can switch them dynamically.</p>
 
 ### Support
 - 🥶 Freeze text in container
@@ -148,3 +159,6 @@ className = "stretch-font"
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
+
+[npm-link]: https://www.npmjs.com/package/stretch-font
+[github-link]: https://github.com/Sarmaged/stretch-font
