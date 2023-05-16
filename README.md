@@ -4,13 +4,13 @@
 
 <h1 align="center" style="text-align: center">Stretch Font</h1>
 
-<p align="center" style="text-align: center">
+<div style="text-align: center">
 
 [![npm](https://img.shields.io/npm/v/stretch-font)][npm-link]
 [![npm](https://img.shields.io/npm/dt/stretch-font)][npm-link]
 [![GitHub](https://img.shields.io/github/license/sarmaged/stretch-font)][github-link]
 
-</p>
+</div>
 
 <p align="center" style="text-align: center">
 <strong>The Utility Dynamically</strong><br />
