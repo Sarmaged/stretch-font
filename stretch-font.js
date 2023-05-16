@@ -27,16 +27,13 @@ function useStretchFont(root = document, className = 'stretch-font') {
   function uniqArrayKeys(array) {
     return [...new Set(array)]
   }
-  function getWidth(node) {
-    return node.getBoundingClientRect().width
-  }
+
+  // Mini store
   function storeSave(node, payload = {}) {
     if (!payload && !Object.keys(payload).length) return
     const o = store.get(node)
     store.set(node, { ...o, ...payload })
   }
-
-  // Get and save to store
   function setSize(node) {
     if (store.get(node)?.size) return
     const size = getFontSize(node)
@@ -58,7 +55,7 @@ function useStretchFont(root = document, className = 'stretch-font') {
 
     storeSave(node, { max: +max })
   }
-  function setWidth(node) {
+  function setParams(node) {
     const o = store.get(node)
 
     const n = document.createElement('span')
@@ -66,10 +63,11 @@ function useStretchFont(root = document, className = 'stretch-font') {
     n.style.fontSize = o.size + 'px'
     tmpl.appendChild(n)
 
-    const { width } = n.getBoundingClientRect()
-    const freeze = 'stretch' in node.dataset ? 0 : !o.freeze ? width : o.freeze
+    let { width, height } = n.getBoundingClientRect()
+    const isStretch = 'stretch' in node.dataset || 'stretchX' in node.dataset || 'stretchY' in node.dataset
+    const freeze = isStretch ? [0, 0] : !o.freeze ? [width, height] : o.freeze
 
-    storeSave(node, { width, freeze })
+    storeSave(node, { width, height, freeze })
 
     n.remove()
   }
@@ -84,16 +82,23 @@ function useStretchFont(root = document, className = 'stretch-font') {
   }
 
   /**
-   * The function adjusts the font size of a given node based on its width and predefined size, minimum and maximum values.
-   * @param node - The HTML element node that we want to apply the font size formula to.
+   * The function calculates and sets the font size of a given node based on its size, minimum and maximum font size,
+   * width, height, and freeze properties.
+   * @param node - The HTML element node for which the font size needs to be calculated and set.
    */
   function formula(node) {
-    let { size, min, max, width, freeze } = store.get(node)
+    const { size, min, max, width, height, freeze } = store.get(node)
+    const [fX, fY] = freeze
 
-    const calc = ((freeze || node.getBoundingClientRect().width) / width) * size * 0.985
-    const x = calc > max ? max : calc < min ? min : calc
+    const v = 0.985
+    const x = ((fX || node.getBoundingClientRect().width) / width) * size * v
+    const y = ((fY || node.getBoundingClientRect().height) / height) * size * v
 
-    node.style.fontSize = x + 'px'
+    let fz = x > max || y > max ? max : x < min || y < min ? min : x < y ? x : y
+    if ('stretchX' in node.dataset) fz = x > max ? max : x < min ? min : x
+    if ('stretchY' in node.dataset) fz = y > max ? max : y < min ? min : y
+
+    node.style.fontSize = fz + 'px'
   }
 
   /**
@@ -128,7 +133,7 @@ function useStretchFont(root = document, className = 'stretch-font') {
     if ('stretchMin' in node.dataset) setMin(node)
     if ('stretchMax' in node.dataset) setMax(node)
     setSize(node)
-    setWidth(node)
+    setParams(node)
 
     formula(node)
     resizeObserver.observe(node)
@@ -156,7 +161,9 @@ function useStretchFont(root = document, className = 'stretch-font') {
           if (type !== 'characterData') return
           if (!parentNode.classList?.contains(className)) return
           if (!store.has(parentNode)) return
-          return store.get(parentNode).width !== getWidth(parentNode)
+          const s = store.get(parentNode)
+          const r = parentNode.getBoundingClientRect()
+          return s.width !== r.width || s.height !== r.height
         })
         .map(({ target }) => target.parentNode)
 

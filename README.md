@@ -1,15 +1,16 @@
-<h3 align="center">
+<h3 style="text-align: center">
   <img width="300" alt="stretch-font logo" src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81r-pDRRmxLwqLVLWFXtdhL9B0bgj1YHe6otqqMJhc3gwexSm9TfPz8owrTSzPlkMFmW_zZewHzDJYp43QBhHtsYa1X6iA=s2560" />
 </h3>
 
-# stretch-font
-The **Utility Dynamically** 🤩 adjusts the **font size** depending on the width of the parent element.
+<h1 style="text-align: center">Stretch Font</h1>
+<strong>The Utility Dynamically</strong> 🤩 adjusts the <u>font size</u> depending on the <u>width</u> and <u>height</u> of the container.
 
 <hr>
 
 This plugin was created in order not to write CSS [Media query] rules for each screen when you have many languages and you can switch them dynamically.
 
 ### Support
+- 🥶 Freeze text in container
 - 🤩 Watches when elements are added
 - 🔥 Hot text replacement (i18n)
 - 🖥 Any change in the width of the parent element
@@ -47,12 +48,67 @@ stretchFont()
 <script>stretchFont()</script>
 ```
 
-## Options
-### Simple usage
-```html
-<div class="stretch-font">Hello world</div>
+## Usage
+### Freeze
+<p><strong>Perfect for inline elements (i18n)</strong><br />
+<i style="color: #777">As if freezing the text inside the container</i></p>
+
+```vue
+<button class="stretch-font">{{ $t("done") }}</button>
+...
+<span class="stretch-font">{{ $t("message") }}</span>
 ```
 
+<p><i style="color: #777">When you change the language, the text takes on the original block width and is not stretched. In this case, the font may increase or decrease depending on how long the text will be.</i>
+</p>
+
+### Stretch [ X & Y ]
+<p><strong>Perfect for dynamically block elements</strong><br />
+<i style="color: #777">When you need the text to be dynamically calculated from the <strong>width</strong> and <strong>height</strong> of the block</i></p>
+
+```vue
+<div class="SOME_DYNAMICALLY_BLOCK" :style="{ width: x + 'px', height: y + 'px' }">
+  <div class="stretch-font" data-stretch>
+    {{ $t("message") }}
+  </div>
+</div>
+```
+
+### Stretch [ X ]
+<p><strong>Perfect for Block elements / CSS Animations / Transition</strong><br />
+<i style="color: #777">Stretches the text only to the <strong>width</strong> of the container.</i></p>
+
+```html
+<div class="stretch-font" data-stretch-x>Some text...</div>
+```
+
+### Stretch [ Y ]
+<p><strong>Perfect for Block elements</strong><br />
+<i style="color: #777">Stretches the text only to the <strong>height</strong> of the container.</i></p>
+
+```html
+<div class="stretch-font" data-stretch-y>Some text...</div>
+```
+
+### Stretch [ min ] = n
+<p><strong>Used for all elements</strong></p>
+
+```html
+<div class="stretch-font" data-stretch-min="10">
+  Font size cannot be less than 10px
+</div>
+```
+
+### Stretch [ max ] = n
+<p><strong>Used for all elements</strong></p>
+
+```html
+<div class="stretch-font" data-stretch-max="20">
+  Font size cannot be larger than 20px
+</div>
+```
+
+## Options
 
 ### useStretchFont(root, className)
 ```
@@ -62,16 +118,8 @@ root = document
 className = "stretch-font"
 ```
 
-### data-stretch
-```html
-<div class="stretch-font" data-stretch>
-  The font is stretched to the width of the block
-</div>
-```
-This is visible when you work with (i18n).
-When you change the language, the text takes on the original block width and is not stretched. In this case, the font may increase or decrease depending on how long the text will be.
-
-<p style="color: #FF7B42">⚠️ Do not apply styles and classes to the "stretch-font" block</p>
+## Mistakes
+<p style="color: #FF7B42">⚠️ Do not apply styles and classes to the "stretch-font" block or inline element</p>
 
 ```html
 🚫 Incorrect
@@ -95,20 +143,6 @@ When you change the language, the text takes on the original block width and is 
   <div class="stretch-font">
     ...
   </div>
-</div>
-```
-
-### data-stretch-min="n"
-```html
-<div class="stretch-font" data-stretch-min="10">
-  Font cannot be less than 10px
-</div>
-```
-
-### data-stretch-max="n"
-```html
-<div class="stretch-font" data-stretch-max="20">
-  Font cannot be larger than 20px
 </div>
 ```
 

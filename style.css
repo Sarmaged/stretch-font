@@ -7,13 +7,17 @@
 }
 
 .stretch-font__tmpl {
-  top: 100%;
+  top: 0;
   left: 0;
   right: 0;
   position: absolute;
   z-index: -1;
 
+  height: 0;
+
+  visibility: hidden;
   box-sizing: inherit;
+  overflow: hidden;
 }
 .stretch-font__tmpl >span {
   top: 0;
