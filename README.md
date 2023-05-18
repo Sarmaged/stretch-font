@@ -34,6 +34,8 @@ Adjusts the <u>font size</u> depending on the <u>width</u> and <u>height</u> of 
 
 <hr>
 
+## [See and try... 💫](https://sarmaged.github.io/stretch-font/)
+
 ## Installation
 ```bash
 npm install stretch-font
@@ -60,8 +62,6 @@ stretchFont()
 <script src="https://cdn.jsdelivr.net/npm/stretch-font/stretch-font.min.js"></script>
 <script>stretchFont()</script>
 ```
-
-## [See and try... 💫](https://sarmaged.github.io/stretch-font/)
 
 ## Usage
 ### Freeze
