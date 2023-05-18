@@ -1,18 +1,4 @@
-#tests
 test
-coverage
-
-#build tools
-.travis.yml
-.jenkins.yml
-.codeclimate.yml
-
-#linters
-.jscsrc
-.jshintrc
-.eslintrc*
-
-#editor settings
 .idea
 .editorconfig
 *.iml

@@ -1,5 +1,7 @@
 <p align="center" style="text-align: center">
+<a href="https://github.com/Sarmaged/stretch-font">
   <img width="300" style="max-width:100%;" alt="Stretch Font: The utility dynamically adjusts the font size based on the width and height of the container" src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81r-pDRRmxLwqLVLWFXtdhL9B0bgj1YHe6otqqMJhc3gwexSm9TfPz8owrTSzPlkMFmW_zZewHzDJYp43QBhHtsYa1X6iA=s2560" />
+</a>
 </p>
 
 <h1 align="center" style="text-align: center">Stretch Font</h1>
@@ -7,8 +9,8 @@
 <div align="center" style="text-align: center">
 
 [![npm](https://img.shields.io/npm/v/stretch-font)][npm-link]
-[![npm](https://img.shields.io/npm/dt/stretch-font)][npm-link]
-[![GitHub](https://img.shields.io/github/license/sarmaged/stretch-font)][github-link]
+[![npm](https://img.shields.io/npm/dm/stretch-font)][npm-link]
+[![GitHub Repo stars](https://img.shields.io/github/stars/sarmaged/stretch-font?style=social)][github-link]
 
 </div>
 
@@ -24,8 +26,8 @@ Adjusts the <u>font size</u> depending on the <u>width</u> and <u>height</u> of 
 - 🥶 Freeze text in container
 - 🤩 Watches when elements are added
 - 🔥 Hot text replacement (i18n)
-- 🖥 Any change in the width of the parent element
-- 🔄 Rotate
+- 🖥 Any change in the width and height of the parent element
+- 📱 Rotate
 - 📝 Multiline
 - ✅ CSS Animation
 - ✅ CSS Transition
@@ -54,10 +56,12 @@ stretchFont()
 
 #### OR for HTML
 ```html
-<link rel="stylesheet" href="https://unpkg.com/stretch-font/style.css">
-<script src="https://unpkg.com/stretch-font/stretch-font.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/stretch-font/style.min.css">
+<script src="https://cdn.jsdelivr.net/npm/stretch-font/stretch-font.min.js"></script>
 <script>stretchFont()</script>
 ```
+
+## [See and try... 💫](https://sarmaged.github.io/stretch-font/)
 
 ## Usage
 ### Freeze
@@ -85,6 +89,9 @@ stretchFont()
 </div>
 ```
 
+[Link see and try [stretch]](https://sarmaged.github.io/stretch-font/#/stretch)
+
+
 ### Stretch [ X ]
 <p><strong>Perfect for Block elements / CSS Animations / Transition</strong><br />
 <i style="color: #777">Stretches the text only to the <strong>width</strong> of the container.</i></p>
@@ -102,6 +109,7 @@ stretchFont()
 ```
 
 ### Stretch [ min ] = n
+[Link see and try [min / max]](https://sarmaged.github.io/stretch-font/#/stretch-min-max)
 <p><strong>Used for all elements</strong></p>
 
 ```html
@@ -157,7 +165,8 @@ className = "stretch-font"
 </div>
 ```
 
-## License
+## License [![NPM](https://img.shields.io/npm/l/stretch-font)](https://github.com/Sarmaged/stretch-font/blob/main/LICENSE)
+
 Distributed under the MIT License. See `LICENSE` for more information.
 
 [npm-link]: https://www.npmjs.com/package/stretch-font
