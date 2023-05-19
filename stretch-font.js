@@ -8,6 +8,7 @@
  * with the class name `className`.
  */
 function useStretchFont(root = document, className = 'stretch-font') {
+  const WEIGHT = [0.99, 0.99, 0.99, 0.98, 0.98, 0.92, 0.92, 0.92, 0.92]
   const tmplClass = 'stretch-font__tmpl'
   const store = new Map()
 
@@ -39,6 +40,12 @@ function useStretchFont(root = document, className = 'stretch-font') {
     const size = getFontSize(node)
 
     storeSave(node, { size })
+  }
+  function setWeight(node) {
+    if (store.get(node)?.weight) return
+    const weight = getFontWeight(node)
+
+    storeSave(node, { weight })
   }
   function setMin(node) {
     if (store.get(node)?.min) return
@@ -80,6 +87,9 @@ function useStretchFont(root = document, className = 'stretch-font') {
   function getFontSize(node) {
     return +self.getComputedStyle(node, null).getPropertyValue('font-size').slice(0, -2)
   }
+  function getFontWeight(node) {
+    return +self.getComputedStyle(node, null).getPropertyValue('font-weight')
+  }
 
   /**
    * The function calculates and sets the font size of a given node based on its size, minimum and maximum font size,
@@ -87,12 +97,12 @@ function useStretchFont(root = document, className = 'stretch-font') {
    * @param node - The HTML element node for which the font size needs to be calculated and set.
    */
   function formula(node) {
-    const { size, min, max, width, height, freeze } = store.get(node)
+    const { size, min, max, width, height, freeze, weight } = store.get(node)
     const [fX, fY] = freeze
+    const V = WEIGHT.at(weight / 100 - 1)
 
-    const v = 0.985
-    const x = ((fX || node.getBoundingClientRect().width) / width) * size * v
-    const y = ((fY || node.getBoundingClientRect().height) / height) * size * v
+    const x = ((fX || node.getBoundingClientRect().width) / width) * size * V
+    const y = ((fY || node.getBoundingClientRect().height) / height) * size * V
 
     let fz = x > max || y > max ? max : x < min || y < min ? min : x < y ? x : y
     if ('stretchX' in node.dataset) fz = x > max ? max : x < min ? min : x
@@ -133,6 +143,7 @@ function useStretchFont(root = document, className = 'stretch-font') {
     if ('stretchMin' in node.dataset) setMin(node)
     if ('stretchMax' in node.dataset) setMax(node)
     setSize(node)
+    setWeight(node)
     setParams(node)
 
     formula(node)
