@@ -15,13 +15,14 @@ function useStretchFont(root = document, className = 'stretch-font') {
   let resizeObserver = null
   let tmpl = null
 
-  const body = document.getElementsByTagName('body')[0]
+  function createTmpl() {
+    const body = document.getElementsByTagName('body')[0]
 
-  // Create template for width container
-  if (!body.querySelector('.' + tmplClass)) {
-    tmpl = document.createElement('div')
-    tmpl.classList.add(tmplClass)
-    body.appendChild(tmpl)
+    if (!body.querySelector('.' + tmplClass)) {
+      tmpl = document.createElement('div')
+      tmpl.classList.add(tmplClass)
+      body.appendChild(tmpl)
+    }
   }
 
   // Helpers
@@ -151,6 +152,8 @@ function useStretchFont(root = document, className = 'stretch-font') {
   }
 
   self.addEventListener('DOMContentLoaded', () => {
+    createTmpl()
+
     // Watch resize
     resizeObserver = new ResizeObserver(entriesResize)
 
