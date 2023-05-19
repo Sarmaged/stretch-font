@@ -15,16 +15,6 @@ function useStretchFont(root = document, className = 'stretch-font') {
   let resizeObserver = null
   let tmpl = null
 
-  function createTmpl() {
-    const body = document.getElementsByTagName('body')[0]
-
-    if (!body.querySelector('.' + tmplClass)) {
-      tmpl = document.createElement('div')
-      tmpl.classList.add(tmplClass)
-      body.appendChild(tmpl)
-    }
-  }
-
   // Helpers
   function uniqArrayKeys(array) {
     return [...new Set(array)]
@@ -38,13 +28,13 @@ function useStretchFont(root = document, className = 'stretch-font') {
   }
   function setSize(node) {
     if (store.get(node)?.size) return
-    const size = getFontSize(node)
+    const size = +self.getComputedStyle(node).fontSize.slice(0, -2)
 
     storeSave(node, { size })
   }
   function setWeight(node) {
     if (store.get(node)?.weight) return
-    const weight = getFontWeight(node)
+    const weight = self.getComputedStyle(node).fontWeight
 
     storeSave(node, { weight })
   }
@@ -81,18 +71,6 @@ function useStretchFont(root = document, className = 'stretch-font') {
   }
 
   /**
-   * The function returns the font size of a given node element.
-   * @param node - The node parameter is a reference to a DOM element whose font size is to be retrieved.
-   * @returns The function `getFontSize` returns the computed font size of the specified `node` element.
-   */
-  function getFontSize(node) {
-    return +self.getComputedStyle(node, null).getPropertyValue('font-size').slice(0, -2)
-  }
-  function getFontWeight(node) {
-    return +self.getComputedStyle(node, null).getPropertyValue('font-weight')
-  }
-
-  /**
    * The function calculates and sets the font size of a given node based on its size, minimum and maximum font size,
    * width, height, and freeze properties.
    * @param node - The HTML element node for which the font size needs to be calculated and set.
@@ -102,12 +80,12 @@ function useStretchFont(root = document, className = 'stretch-font') {
     const [fX, fY] = freeze
     const V = WEIGHT.at(weight / 100 - 1)
 
-    const x = ((fX || node.getBoundingClientRect().width) / width) * size * V
-    const y = ((fY || node.getBoundingClientRect().height) / height) * size * V
+    const X = ((fX || node.getBoundingClientRect().width) / width) * size * V
+    const Y = ((fY || node.getBoundingClientRect().height) / height) * size * V
 
-    let fz = x > max || y > max ? max : x < min || y < min ? min : x < y ? x : y
-    if ('stretchX' in node.dataset) fz = x > max ? max : x < min ? min : x
-    if ('stretchY' in node.dataset) fz = y > max ? max : y < min ? min : y
+    let fz = X > max || Y > max ? max : X < min || Y < min ? min : X < Y ? X : Y
+    if ('stretchX' in node.dataset && !('stretchY' in node.dataset)) fz = X > max ? max : X < min ? min : X
+    if ('stretchY' in node.dataset && !('stretchX' in node.dataset)) fz = Y > max ? max : Y < min ? min : Y
 
     node.style.fontSize = fz + 'px'
   }
@@ -152,7 +130,13 @@ function useStretchFont(root = document, className = 'stretch-font') {
   }
 
   self.addEventListener('DOMContentLoaded', () => {
-    createTmpl()
+    const body = document.getElementsByTagName('body')[0]
+
+    if (!body.querySelector('.' + tmplClass)) {
+      tmpl = document.createElement('div')
+      tmpl.classList.add(tmplClass)
+      body.appendChild(tmpl)
+    }
 
     // Watch resize
     resizeObserver = new ResizeObserver(entriesResize)
