@@ -6,8 +6,12 @@
   text-overflow: ellipsis;
 }
 
+.stretch-font__inline {
+  display: inline-block;
+}
+
 .stretch-font__tmpl {
-  top: 0;
+  top: 100%;
   left: 0;
   right: 0;
   position: absolute;

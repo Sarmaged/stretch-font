@@ -1,4 +1,8 @@
 test
+.vscode
 .idea
-.editorconfig
 *.iml
+*.lock
+.*.json
+*.config.js
+.editorconfig

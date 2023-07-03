@@ -1,9 +1,3 @@
-<p align="center" style="text-align: center">
-<a href="https://github.com/Sarmaged/stretch-font">
-  <img width="300" style="max-width:100%;" alt="Stretch Font: The utility dynamically adjusts the font size based on the width and height of the container" src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81r-pDRRmxLwqLVLWFXtdhL9B0bgj1YHe6otqqMJhc3gwexSm9TfPz8owrTSzPlkMFmW_zZewHzDJYp43QBhHtsYa1X6iA=s2560" />
-</a>
-</p>
-
 <h1 align="center" style="text-align: center">Stretch Font</h1>
 
 <div align="center" style="text-align: center">
